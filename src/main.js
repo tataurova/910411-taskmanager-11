@@ -10,6 +10,7 @@ import SortComponent from "./components/sort.js";
 import {generateFilters} from "./mock/filter.js";
 import {generateTasks} from "./mock/task.js";
 import {render, RenderPosition} from "./utils.js";
+import {KEYBOARD_KEYS} from "./const.js";
 
 
 const TASK_COUNT = 22;
@@ -29,7 +30,9 @@ const renderTask = (taskListElement, task) => {
   const editButton = taskComponent.getElement().querySelector(`.card__btn--edit`);
 
   const onEscKeyDown = (evt) => {
-    const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
+    const isEscKey = (evt) => {
+      return evt.key === KEYBOARD_KEYS.ESCAPE_CODE || evt.key === KEYBOARD_KEYS.ESC_CODE;
+    };
 
     if (isEscKey) {
       replaceEditToTask();
@@ -54,7 +57,7 @@ const renderTask = (taskListElement, task) => {
 };
 
 const renderBoard = (boardComponent, tasks) => {
-  const isAllTasksArchived = tasks.every((task) => task.isArchive);
+  const isAllTasksArchived = !tasks.some((task) => task.isArchive === false);
 
   if (isAllTasksArchived) {
     render(boardComponent.getElement(), new NoTasksComponent().getElement(), RenderPosition.BEFOREEND);
