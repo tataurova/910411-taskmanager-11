@@ -2,9 +2,9 @@ export const COLORS = [`black`, `yellow`, `blue`, `green`, `pink`];
 
 export const DAYS = [`mo`, `tu`, `we`, `th`, `fr`, `sa`, `su`];
 
-export const KEYBOARD_KEYS = {
-  ESCAPE_CODE: `Escape`,
-  ESC_CODE: `Esc`,
+export const KeyboardKey = {
+  ESCAPE: `Escape`,
+  ESC: `Esc`,
 };
 
 export const MONTH_NAMES = [
@@ -21,3 +21,8 @@ export const MONTH_NAMES = [
   `November`,
   `December`,
 ];
+
+export const RenderPosition = {
+  AFTERBEGIN: `afterbegin`,
+  BEFOREEND: `beforeend`
+};

@@ -9,8 +9,8 @@ import SiteMenuComponent from "./components/site-menu.js";
 import SortComponent from "./components/sort.js";
 import {generateFilters} from "./mock/filter.js";
 import {generateTasks} from "./mock/task.js";
-import {render, RenderPosition} from "./utils.js";
-import {KEYBOARD_KEYS} from "./const.js";
+import {render, remove} from "./utils/render.js";
+import {checkIsEscKey} from "./utils/keyboard.js";
 
 
 const TASK_COUNT = 22;
@@ -27,12 +27,10 @@ const renderTask = (taskListElement, task) => {
   };
 
   const taskComponent = new TaskComponent(task);
-  const editButton = taskComponent.getElement().querySelector(`.card__btn--edit`);
+  const editButtonElement = taskComponent.getElement().querySelector(`.card__btn--edit`);
 
   const onEscKeyDown = (evt) => {
-    const isEscKey = (evt) => {
-      return evt.key === KEYBOARD_KEYS.ESCAPE_CODE || evt.key === KEYBOARD_KEYS.ESC_CODE;
-    };
+    const isEscKey = checkIsEscKey(evt);
 
     if (isEscKey) {
       replaceEditToTask();
@@ -40,7 +38,7 @@ const renderTask = (taskListElement, task) => {
     }
   };
 
-  editButton.addEventListener(`click`, () => {
+  editButtonElement.addEventListener(`click`, () => {
     replaceTaskToEdit();
     document.addEventListener(`keydown`, onEscKeyDown);
   });
@@ -53,19 +51,19 @@ const renderTask = (taskListElement, task) => {
     document.removeEventListener(`keydown`, onEscKeyDown);
   });
 
-  render(taskListElement, taskComponent.getElement(), RenderPosition.BEFOREEND);
+  render(taskListElement, taskComponent.getElement());
 };
 
 const renderBoard = (boardComponent, tasks) => {
   const isAllTasksArchived = !tasks.some((task) => task.isArchive === false);
 
   if (isAllTasksArchived) {
-    render(boardComponent.getElement(), new NoTasksComponent().getElement(), RenderPosition.BEFOREEND);
+    render(boardComponent.getElement(), new NoTasksComponent().getElement());
     return;
   }
 
-  render(boardComponent.getElement(), new SortComponent().getElement(), RenderPosition.BEFOREEND);
-  render(boardComponent.getElement(), new TasksComponent().getElement(), RenderPosition.BEFOREEND);
+  render(boardComponent.getElement(), new SortComponent().getElement());
+  render(boardComponent.getElement(), new TasksComponent().getElement());
 
   const taskListElement = boardComponent.getElement().querySelector(`.board__tasks`);
 
@@ -78,7 +76,7 @@ const renderBoard = (boardComponent, tasks) => {
 
   const loadMoreButtonComponent = new LoadMoreButtonComponent();
 
-  render(boardComponent.getElement(), loadMoreButtonComponent.getElement(), RenderPosition.BEFOREEND);
+  render(boardComponent.getElement(), loadMoreButtonComponent.getElement());
 
   loadMoreButtonComponent.getElement().addEventListener(`click`, () => {
     const prevTasksCount = showingTasksCount;
@@ -88,8 +86,7 @@ const renderBoard = (boardComponent, tasks) => {
       .forEach((task) => renderTask(taskListElement, task));
 
     if (showingTasksCount >= tasks.length) {
-      loadMoreButtonComponent.getElement().remove();
-      loadMoreButtonComponent.removeElement();
+      remove(loadMoreButtonComponent);
     }
   });
 };
@@ -100,10 +97,10 @@ const siteHeaderElement = siteMainElement.querySelector(`.main__control`);
 const filters = generateFilters();
 const tasks = generateTasks(TASK_COUNT);
 
-render(siteHeaderElement, new SiteMenuComponent().getElement(), RenderPosition.BEFOREEND);
-render(siteMainElement, new FilterComponent(filters).getElement(), RenderPosition.BEFOREEND);
+render(siteHeaderElement, new SiteMenuComponent().getElement());
+render(siteMainElement, new FilterComponent(filters).getElement());
 
 const boardComponent = new BoardComponent();
 
-render(siteMainElement, boardComponent.getElement(), RenderPosition.BEFOREEND);
+render(siteMainElement, boardComponent.getElement());
 renderBoard(boardComponent, tasks);
