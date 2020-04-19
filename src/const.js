@@ -2,6 +2,11 @@ export const COLORS = [`black`, `yellow`, `blue`, `green`, `pink`];
 
 export const DAYS = [`mo`, `tu`, `we`, `th`, `fr`, `sa`, `su`];
 
+export const KeyboardKey = {
+  ESCAPE: `Escape`,
+  ESC: `Esc`,
+};
+
 export const MONTH_NAMES = [
   `January`,
   `February`,
@@ -16,3 +21,8 @@ export const MONTH_NAMES = [
   `November`,
   `December`,
 ];
+
+export const RenderPosition = {
+  AFTERBEGIN: `afterbegin`,
+  BEFOREEND: `beforeend`
+};

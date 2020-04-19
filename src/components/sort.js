@@ -1,4 +1,4 @@
-import {createElement} from "../utils.js";
+import {createElement} from "../utils/render.js";
 
 const createSortTemplate = () => {
   return `<div class="board__filter-list">
