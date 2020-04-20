@@ -5,7 +5,7 @@ import TasksComponent from "../components/tasks.js";
 import NoTasksComponent from "../components/no-tasks.js";
 import SortComponent, {SortType} from "../components/sort.js";
 import {render, remove} from "../utils/render.js";
-import {checkIsEscKey} from "../utils/keyboard.js";
+import {isEscKey} from "../utils/keyboard.js";
 import {TaskCount} from "../const.js";
 
 const renderTask = (taskListElement, task) => {
@@ -21,9 +21,7 @@ const renderTask = (taskListElement, task) => {
   const taskEditComponent = new TaskEditComponent(task);
 
   const onEscKeyDown = (evt) => {
-    const isEscKey = checkIsEscKey(evt);
-
-    if (isEscKey) {
+    if (isEscKey(evt)) {
       replaceEditToTask();
       document.removeEventListener(`keydown`, onEscKeyDown);
     }

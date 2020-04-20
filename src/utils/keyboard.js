@@ -1,5 +1,5 @@
 import {KeyboardKey} from "../const.js";
 
-export const checkIsEscKey = ({key}) => {
+export const isEscKey = ({key}) => {
   return key === KeyboardKey.ESCAPE || key === KeyboardKey.ESC;
 };

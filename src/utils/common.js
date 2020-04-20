@@ -1,5 +1,5 @@
 const castTimeFormat = (value) => {
-  return value < 10 ? `0${value}` : String(value);
+  return value < 10 ? String(value).padStart(2, `0`) : String(value);
 };
 
 export const formatTime = (date) => {
